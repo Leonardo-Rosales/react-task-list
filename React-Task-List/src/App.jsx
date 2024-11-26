@@ -76,7 +76,7 @@ function App() {
   ]
 
 
-  function getFilteredTasks(tasks) {
+  function getFilteredTasksToComplete(tasks) {
 
     return tasks
       .filter(({ state }) => state === 'in_progress' || state === 'backlog')
@@ -84,28 +84,50 @@ function App() {
 
   }
 
-  const filteredTasks = getFilteredTasks(tasks)
+  function getFilteredTasksCompleted(tasks) {
+
+    return tasks
+      .filter(({ state }) => state === 'completed')
+      .map(({ title, priority, estimatedTime }) => ({ title, priority, estimatedTime }))
+
+  }
+
+
+  const FilteredTasksToComplete = getFilteredTasksToComplete(tasks)
+  const FilteredTasksCompleted = getFilteredTasksCompleted(tasks)
 
   return (
     <>
-      <header>
+      <header className='main-header'>
         <h1>Task Manager</h1>
       </header>
 
-      <main>
-        <h2>Current Task(4)</h2>
-        <div className="task-list-to-complete">
-          <ul>
-            {filteredTasks.map(({ title, priority, estimatedTime }, listToComplete) => (
-              <li key={listToComplete}>
+      <main className='main-body'>
+        <section>
+          <h2 className='title'>Current Tasks (4)</h2>
+          <ul className='list'>
+            {FilteredTasksToComplete.map(({ title, priority, estimatedTime }, listToComplete) => (
+              <li className='list-element' key={listToComplete}>
                 <strong>{title}</strong>
                 <div>Priority: {priority}</div>
                 <div>Est. time {estimatedTime}</div>
               </li>
             ))}
           </ul>
-
-        </div>
+        </section>
+        <hr />
+        <section>
+          <h2 className='title'>Completed Tasks (6)</h2>
+          <ul className='list'>
+            {FilteredTasksCompleted.map(({ title, priority, estimatedTime }, listCompleted) => (
+              <li className='list-element' key={listCompleted}>
+                <strong>{title}</strong>
+                <div>Priority: {priority}</div>
+                <div>Est. time {estimatedTime}</div>
+              </li>
+            ))}
+          </ul>
+        </section>
       </main>
 
     </>
@@ -114,12 +136,3 @@ function App() {
 
 export default App
 
-
-
-// Esercizio
-// Mostriamo in due liste diverse gli elementi dell’array tasks.
-// Nella prima lista mostriamo solo i task (title, priority e estimatedTime) che hanno stato “backlog” o “in_progress”.
-// Nella seconda lista mostriamo i task che hanno stato “completed”.
-// Infine riprodurre il layout lasciato in allegato.
-// BONUS
-// Mostrare lo stato di ogni task in un piccolo tag di fianco al titolo, associando però ad ogni stato un colore diverso.
