@@ -80,7 +80,7 @@ function App() {
 
     return tasks
       .filter(({ state }) => state === 'in_progress' || state === 'backlog')
-      .map(({ title, priority, estimatedTime }) => ({ title, priority, estimatedTime }))
+      .map(({ title, priority, estimatedTime, state }) => ({ title, priority, estimatedTime, state }))
 
   }
 
@@ -88,13 +88,20 @@ function App() {
 
     return tasks
       .filter(({ state }) => state === 'completed')
-      .map(({ title, priority, estimatedTime }) => ({ title, priority, estimatedTime }))
+      .map(({ title, priority, estimatedTime, state }) => ({ title, priority, estimatedTime, state }))
 
   }
 
 
   const FilteredTasksToComplete = getFilteredTasksToComplete(tasks)
   const FilteredTasksCompleted = getFilteredTasksCompleted(tasks)
+
+  const getClassForState = (state) =>
+    state === 'completed' ? 'state-completed' : state === 'backlog' ? 'state-backlog' : 'state-in-progress'
+
+  // console.log(getClassForState)
+
+
 
   return (
     <>
@@ -106,9 +113,12 @@ function App() {
         <section>
           <h2 className='title'>Current Tasks (4)</h2>
           <ul className='list'>
-            {FilteredTasksToComplete.map(({ title, priority, estimatedTime }, listToComplete) => (
+            {FilteredTasksToComplete.map(({ title, priority, estimatedTime, state }, listToComplete) => (
               <li className='list-element' key={listToComplete}>
-                <strong>{title}</strong>
+                <div className='row-title'>
+                  <strong>{title}</strong>
+                  <span className={getClassForState(state)}>{state}</span>
+                </div>
                 <div>Priority: {priority}</div>
                 <div>Est. time {estimatedTime}</div>
               </li>
@@ -119,9 +129,12 @@ function App() {
         <section>
           <h2 className='title'>Completed Tasks (6)</h2>
           <ul className='list'>
-            {FilteredTasksCompleted.map(({ title, priority, estimatedTime }, listCompleted) => (
+            {FilteredTasksCompleted.map(({ title, priority, estimatedTime, state }, listCompleted) => (
               <li className='list-element' key={listCompleted}>
-                <strong>{title}</strong>
+                <div className='row-title'>
+                  <strong>{title}</strong>
+                  <span className={getClassForState(state)}>{state}</span>
+                </div>
                 <div>Priority: {priority}</div>
                 <div>Est. time {estimatedTime}</div>
               </li>

@@ -46,3 +46,29 @@ hr {
   flex-direction: column;
   gap: 6px;
 }
+
+span {
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 16px;
+  color: black;
+}
+
+.row-title {
+  display: flex;
+  align-items: center;
+}
+
+.state-completed {
+  background-color: green;
+  color: white;
+
+}
+
+.state-backlog {
+  background-color: orange;
+}
+
+.state-in-progress {
+  background-color: yellow;
+}
